@@ -14,7 +14,7 @@
     Примечание.
 
     Эталонная комбинация для поля NxM содержит N*M-1N∗M−1 чисел по порядку от 11 до N*M-1N∗M−1 (т.к. последняя ячейка остаётся пустой).
-    
+
     При этом
 
     первые n-1 строк содержат по m чисел
@@ -23,30 +23,24 @@
 '''
 
 n, m = map(int, input().split())
+
 ans = []
 z = 1
 for i in range(n):
-    q = [int(y) for y in range(i * m + 1, m * (i + 1) + 1)]
-    ans += (q[::z])
+    ans += [int(y) for y in range(i * m + 1, m * (i + 1) + 1)][::z]#заполняю эталон построчно,с инверсией по z
     z *= -1
-ans = ans[:int(n * m) - 1]
+ans = ans[:int(n * m) - 1]#делаю срез эталона без последнего значения(оставляю пустое поле)
 
 ins = []
-for i in range(n):
-    q = [int(i) for i in input().split()]
-    ins += q[:]
+for i in range(n):#считываю входные последовательности,запоняю ими ins
+    ins+= [int(i) for i in input().split()]
 
-
-def ch(x):
+def ch(x):#вычисляет четность перестановки
     w = 1
     for i in x:
         for y in x[x.index(i):]:
             if i > y:
-                w *= -1
+                w *= -1#меняю четность при каждой "неверной" послеовательности
     return w
 
-
-if ch(ins) == ch(ans):
-    print("Бинго!")
-else:
-    print("Не повезло...")
+print("Бинго!" if ch(ins) == ch(ans) else "Не повезло...")
